@@ -1,0 +1,5 @@
+﻿  main.cpp
+C:\Users\dybme\source\repos\DefenderGame\DefenderGame\main.cpp(42,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dybme\source\repos\DefenderGame\DefenderGame\main.cpp(97,51): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\source\repos\DefenderGame\DefenderGame\main.cpp(98,39): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  DefenderGame.vcxproj -> C:\Users\dybme\source\repos\DefenderGame\Debug\DefenderGame.exe
