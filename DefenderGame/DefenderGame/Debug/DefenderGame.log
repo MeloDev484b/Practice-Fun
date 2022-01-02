@@ -1,7 +1,7 @@
 ﻿  main.cpp
-C:\Users\dybme\source\repos\DefenderGame\DefenderGame\main.cpp(28,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\dybme\source\repos\DefenderGame\DefenderGame\main.cpp(118,33): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\source\repos\DefenderGame\DefenderGame\main.cpp(125,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\source\repos\DefenderGame\DefenderGame\main.cpp(166,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\source\repos\DefenderGame\DefenderGame\main.cpp(187): warning C4715: 'getInput': not all control paths return a value
-  DefenderGame.vcxproj -> C:\Users\dybme\source\repos\DefenderGame\Debug\DefenderGame.exe
+C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(31,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(48,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(176,33): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(183,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(67): warning C4715: 'getInput': not all control paths return a value
+  DefenderGame.vcxproj -> C:\Users\dybme\Desktop\Moved\DefenderGame\Debug\DefenderGame.exe
