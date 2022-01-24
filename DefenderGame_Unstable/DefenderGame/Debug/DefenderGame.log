@@ -1,10 +1,8 @@
 ﻿  main.cpp
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(48,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(65,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(89,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(175,33): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(182,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(288,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(101): warning C4715: 'getInput': not all control paths return a value
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(84): warning C4715: 'getInput': not all control paths return a value
+C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(54,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(71,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(95,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(294,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(107): warning C4715: 'getInput': not all control paths return a value
+C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(90): warning C4715: 'getInput': not all control paths return a value
   DefenderGame.vcxproj -> C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\Debug\DefenderGame.exe

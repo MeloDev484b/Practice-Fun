@@ -30,21 +30,21 @@ void Army::rollArmySize() //Enemy function
 	//set total size of army - modify based on difficulty
 	armySize = rand() % 40 + 20;
 }
-void Army::rollDirection() //Enemy Function
+void Army::rollDirection() //Enemy Function - pick the locations where the army is divided into [0] - [3]
 {
-	//pick the locations where the army is divided into [0] - [3]
+	int tempArmySize = armySize;
 	for (int i = 0; i < soldiersAtLocation.size(); i++)
 	{
-		if (rollAd12() > 6 && armySize > 0)
+		if (rollAd12() > 6 && tempArmySize > 0)
 		{
-			int amountOfSoliers = rand() % armySize;
+			int amountOfSoliers = rand() % tempArmySize + 1;
 			setSoldiersAtLocation(amountOfSoliers, i);
-			armySize -= amountOfSoliers;
+			tempArmySize -= amountOfSoliers;
 		}
 	}
 	
 }
-int Army::getsoldiersAtLocation(int arrayPosition) const
+int Army::getSoldiersAtLocation(int arrayPosition) const
 {
 	return soldiersAtLocation[arrayPosition];
 }
@@ -94,9 +94,9 @@ void Army::whereAreTheEnemies() //Enemy function
 {
 	for (int i = 0; i < soldiersAtLocation.size(); i++)
 	{
-		if (getsoldiersAtLocation(i) > 0)
+		if (getSoldiersAtLocation(i) > 0)
 		{
-			int enemies = getsoldiersAtLocation(i);
+			int enemies = getSoldiersAtLocation(i);
 			string direction = getDirection(i);
 			cout <<"\n"<< enemies << " enemy soldiers approach from the " << direction << "!\n\n";
 		}

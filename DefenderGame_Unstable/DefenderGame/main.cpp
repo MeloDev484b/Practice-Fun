@@ -33,11 +33,17 @@ int randomEventRoll();
 void buyOrSell(bool buy, int input, int gold);
 void openRovingTraderShop();
 void diplomacy();
-int rollD12();
+int rollDie(int sides);
+void whichElementLeft();
+int returnModifiedCombatPower(int numberOfTroops, int meleeSkill);
+int returnModifiedLoss(int numberOfTroopsLost, int armourSkill, int currentArmySize);
+int returnNumberOfPrisoners(int enemySoldiers);
+bool battleWin(int playerSoldiers, int enemySoldiers);
+int generateLoot(/*add modifier later*/);
 
 
 Army army(50, 0);
-Troops troops(2, 2, 2);
+Troops troops(2, 2);
 Army enemyArmy(0, 0);
 Resources resources;
 ScoreKeeper playerScore;
@@ -109,11 +115,11 @@ void attackDirection() //where are the enemies coming from, and how many?
 void isTheKingAlive()
 {
 	int currentArmySize = army.getArmySize();
-	if (currentArmySize < 1)
+	if (currentArmySize <= 0)
 	{
 		int kingArms = playerScore.getKingArms();
 		cout << "The king has fallen; you are at the enemy's mercy.\n";
-		cout << playerScore.getKills() << " enemy soldiers fell to your soldiers.\n";
+		cout << playerScore.getKills() << " enemy soldiers fell to your army.\n";
 		cout << "You lost " << playerScore.getAllyDeaths() << " good soldiers during your defense.\n";
 		if (kingArms > 2)
 		{
@@ -130,12 +136,12 @@ void preparation()
 	//determine where troops go before the attack
 	for (int i = 0; i < DIRECTION_ARRAY_SIZE; i++)
 	{
-		if (army.getArmySize() > 0 && tempArmySize > 0 && enemyArmy.getsoldiersAtLocation(i) > 0)
+		if (army.getArmySize() > 0 && tempArmySize > 0 && enemyArmy.getSoldiersAtLocation(i) > 0)
 		{
 			string direction = army.getDirection(i);
 			int stationInput;
 			cout << "\nYou have " << tempArmySize << " soldiers at your disposal.\n";
-			cout << "How any soldiers will you send to the " << direction << "?\n";
+			cout << "How many soldiers will you send to the " << direction << "?\n";
 			stationInput = getInput('p');
 			if (stationInput <= tempArmySize)
 			{
@@ -145,7 +151,7 @@ void preparation()
 			else if(stationInput > tempArmySize)
 			{
 				cout << "You can't allocate more soldiers than you have!\n";
-				cout << "You send the rest of your soldiers to the " << direction << ".\n";
+				cout << "You send all available soldiers to the " << direction << ".\n";
 				army.setSoldiersAtLocation(tempArmySize, i);
 				tempArmySize = 0;
 			}
@@ -172,30 +178,30 @@ void store()
 		if (userChoice == 1 && resources.getGold() > 300)
 		{
 			cout << "You improve your army's weapons.\n";
-			troops.setMelee(currentMelee * 1.1);
-			resources.setGold(currentGold - 300);
-			cout << troops.getMelee() << endl;//test
+			troops.setMelee(currentMelee + 1);
+			resources.setGold(-300);
+			cout << "Current weapons skill level: " << troops.getMelee() << ".\n";
 		}
 		else if (userChoice == 2 && resources.getGold() > 300)
 		{
 			cout << "You improve your army's armour.\n";
-			troops.setArmour(currentArmour * 1.1);
-			resources.setGold(currentGold - 300);
-			cout << troops.getArmour() << endl;//test
+			troops.setArmour(currentArmour + 1);
+			resources.setGold(-300);
+			cout << "Current armour skill level: " << troops.getArmour() << ".\n";
 		}
 		else if (userChoice == 3 && resources.getGold() > 200)
 		{
-			cout << "You hire more footsoldiers.\n";
+			cout << "You hire more soldiers.\n";
 			army.setArmySize(currentArmySize + 10); //NOTE:make this scale
-			resources.setGold(currentGold-200);
-			cout << army.getArmySize() << endl;//test
+			resources.setGold(-200);
+			cout << "Total soldiers enlisted: " << army.getArmySize() << ".\n";
 		}
 		else if (userChoice == 4 && resources.getGold() > 400)
 		{
 			cout << "You hire a party of archers to support your footsoldiers.\n";
 			army.setArcherAmount(currentArchers + 4); ///NOTE:make this scale
-			resources.setGold(currentGold - 400);
-			cout << army.getArcherAmount() << endl;//test
+			resources.setGold(-400);
+			cout << "Total archers enlisted: " << army.getArcherAmount() << ".\n";
 		}
 		else
 		{
@@ -263,10 +269,10 @@ void randomEvent()
 	{
 		//find gold
 		int currentGold = resources.getGold();
-		int foundGold = rand() % 100 + 1;
+		int foundGold = rand() % 1000 + 1;
 		cout << "A leprechaun appears at your door and delivers a pot of gold.\n";
 		cout << "You find " << foundGold << " gold.\n";
-		resources.setGold(currentGold + foundGold);
+		resources.setGold(foundGold);
 	}
 	else if (chance >= 50 && chance != 51 && chance != 52 && chance != 53)//test nums
 	{
@@ -287,7 +293,7 @@ int randomEventRoll()
 	array <int, 6> randomEventChance{ 0, 0, 0, 0, 0, 0 };
 	for (int i = 0; i < randomEventChance.size(); i++)
 	{
-		randomEventChance[i] = rollD12();
+		randomEventChance[i] = rollDie(12);
 		if (randomEventChance[i] > 6)
 		{
 			result += randomEventChance[i];
@@ -308,8 +314,8 @@ void buyOrSell(bool buy, int input, int gold)
 			cout << "How many metal scraps would you like to buy?\n";
 			int metalToBuy = getInput(maxPurchase);
 			rovingTraders.setScrapMetal(rovingTraders.getScrapMetal() - metalToBuy);
-			rovingTraders.setGold(rovingTraders.getGold() + (metalToBuy * rovingTraders.getPrices(0)));
-			resources.setGold(playerGold - (metalToBuy * rovingTraders.getPrices(0)));
+			rovingTraders.setGold(metalToBuy * rovingTraders.getPrices(0));
+			resources.setGold(-(metalToBuy * rovingTraders.getPrices(0)));
 			cout << "You bought " << metalToBuy << " metal scraps. You have " << resources.getGold() << " gold.\n";
 			playerScore.setTrades(1);
 		}
@@ -331,8 +337,8 @@ void buyOrSell(bool buy, int input, int gold)
 			cout << "How many wood scraps would you like to buy?\n";
 			int woodToBuy = getInput(maxPurchase);
 			rovingTraders.setScrapWood(rovingTraders.getScrapWood() - woodToBuy);
-			rovingTraders.setGold(rovingTraders.getGold() + (woodToBuy * rovingTraders.getPrices(1)));
-			resources.setGold(playerGold - (woodToBuy * rovingTraders.getPrices(1)));
+			rovingTraders.setGold((woodToBuy * rovingTraders.getPrices(1)));
+			resources.setGold(-(woodToBuy * rovingTraders.getPrices(1)));
 			cout << "You bought "<<woodToBuy << " wood scraps. You have " << resources.getGold() << " gold.\n";
 			playerScore.setTrades(1);
 		}
@@ -354,8 +360,8 @@ void buyOrSell(bool buy, int input, int gold)
 			cout << "How much stone would you like to buy?\n";
 			int stoneToBuy = getInput(maxPurchase);
 			rovingTraders.setStone(rovingTraders.getStone() - stoneToBuy);
-			rovingTraders.setGold(rovingTraders.getGold() + (stoneToBuy * rovingTraders.getPrices(0)));
-			resources.setGold(playerGold - (stoneToBuy * rovingTraders.getPrices(0)));
+			rovingTraders.setGold((stoneToBuy * rovingTraders.getPrices(0)));
+			resources.setGold(-(stoneToBuy * rovingTraders.getPrices(0)));
 			cout << "You bought " << stoneToBuy << " stone. You have " << resources.getGold() << " gold.\n";
 			playerScore.setTrades(1);
 		}
@@ -399,7 +405,7 @@ void openRovingTraderShop()
 			if (userInput == 1)
 			{
 				cout << "Right, here you go then.\n";
-				resources.setGold(playerGold - 5000);
+				resources.setGold(-5000);
 			}
 			else
 			{
@@ -464,111 +470,176 @@ void diplomacy()
 		}
 		else if (highestRoll >= 52 && highestRoll < 80)
 		{
+			int currentEnemyArmySize = enemyArmy.getArmySize();
 			int enemiesLeaving = int(currentDiplomacySkill);
-			cout << "\nYour diplomats walk back witht their heads held high. They convinced " << enemiesLeaving << " enemies to leave the fight!\n";
+			cout << "\nYour diplomats walk back with their heads held high. They convinced " << enemiesLeaving << " enemies to leave the fight!\n";
 			troops.setDiplomacySkill(1.25);
+			//remove enemies from the enemy army
+			enemyArmy.setArmySize(currentEnemyArmySize - enemiesLeaving);
+			enemyArmy.rollDirection();
 		}
 		else if (highestRoll > 80 && highestRoll < 110)
 		{
+			int currentPlayerArmySize = army.getArmySize();
+			int currentEnemyArmySize = enemyArmy.getArmySize();
 			int enemiesJoining = int(currentDiplomacySkill);
 			cout << "\nYour diplomats must be kiniving creature as they have convinced " << enemiesJoining << " enemies to fight alongside your soldiers!\n";
 			troops.setDiplomacySkill(3);
+			//remove enemies joining from enemy army and add to player's army
+			enemyArmy.setArmySize(currentEnemyArmySize - enemiesJoining);
+			army.setArmySize(currentPlayerArmySize + enemiesJoining);
+			enemyArmy.rollDirection();
 		}
 		else if (highestRoll > 110)
 		{
-			cout << "\nYour diplomats return, bustling with excitement.\nThey have convinced an entire army to leave the fight!\n";
+			cout << "\nYour diplomats return, bustling with excitement.\n";
 			troops.setDiplomacySkill(5);
+			//one element of the enemy army retreats
+			whichElementLeft();
 		}
-
-		troops.setDiplomacySkill(0.5); //change amount based on level of success
 	}
+	enemyArmy.whereAreTheEnemies();
 }
+///Combat Begins
 void combatArrayCheck(Army playerArmy, Army enemyArmy)
 {
-	int playerKills = 0;
-	int enemyKills = 0;
-	for (int i =0;i<=ARRAY_LOOP_CONST;i++)
+	int meleeModifier = troops.getMelee();
+	int defenseModifier = troops.getArmour();
+	int totalKills = 0;
+	int totalEnemyKills = 0;
+	for (int i = 0; i <= ARRAY_LOOP_CONST; i++)
 	{
-		int playerArmySize = army.getArmySize();
-		if (enemyArmy.getsoldiersAtLocation(i) != 0)
+		int playerElement = army.getSoldiersAtLocation(i);
+		int enemyElement = enemyArmy.getSoldiersAtLocation(i);
+		string direction = army.getDirection(i);
+		int tempPlayerKills = 0;
+		int tempEnemyKills = 0;
+		int tempPrisoners = 0;
+		if (enemyElement > 0)
 		{
-			int playerElement = playerArmy.getsoldiersAtLocation(i);
-			int enemyElement = enemyArmy.getsoldiersAtLocation(i);
-			int battleResult = playerElement - enemyElement;
-			int drops = rand() % 100 + 1;
-			if (battleResult > 0)
+			int playerArmySize = army.getArmySize();
+			if (battleWin(playerElement, enemyElement))
 			{
-				playerKills += enemyElement;
-				cout << "\nYour soldiers' offensive prowess secures a decisive victory!\n";
-				cout << "All " << playerKills << " of the enemy's forces have been eliminated.\n";
-				resources.setGold(drops);
-				cout << "\nYou loot supplies worth " << drops << " gold from the battlefield.\n";
+				int gold = generateLoot();
+				tempPlayerKills += min(rand() % returnModifiedCombatPower(playerElement, meleeModifier), enemyElement);
+				totalKills += tempPlayerKills;
+				tempPrisoners += returnNumberOfPrisoners(enemyElement);
+				resources.setCapturedEnemies(-tempPrisoners);
+				cout << "Your army routes the enemy forces! Your soldiers killed " << tempPlayerKills << " soldiers, took " << tempPrisoners << " prisoners, and looted " << gold << " gold from the battlefield.\n";
+				resources.setGold(gold);
 			}
-			else if (battleResult == 0)
+			else if (playerElement <= 0)
 			{
-				playerKills += enemyElement;
-				enemyKills += (playerElement / 15);
-				cout << "\nAfter a bloody battle your soldiers manage to run the enemy off.\n";
-				cout << enemyKills << " of your men were killed, but your soldiers managed to slaughter " << playerKills << " enemies.\n";
-				resources.setGold(drops);
-				cout << "\nYou loot supplies worth " << drops << " gold from the battlefield.\n";
-				army.setArmySize(playerArmySize - enemyKills);
-			}
-			else if (battleResult < 0 && playerArmySize > 0)
-			{
-				if (playerElement > 0)
+				tempEnemyKills += rand() % returnModifiedLoss(playerArmySize, defenseModifier, playerArmySize) + 1;
+				if (tempEnemyKills > playerArmySize)
 				{
-					playerKills += (enemyElement / 2);
-					enemyKills += playerElement;
-					cout << "\nYour forces managed to take down " << (enemyElement/2) << " of the enemy, but, you suffer a terrible loss of " << playerElement << " soldiers.\n";
-					army.setArmySize(playerArmySize - playerElement);
+					tempEnemyKills = playerArmySize;
 				}
-				else if (playerElement <= 0)
-				{
-					int casualties = min(enemyElement, playerArmySize);
-					if (playerArmySize > enemyElement)
-					{
-						enemyKills += casualties;
-						cout << "\nThe enemies break into your keep, wreck havoc on your cowering soldiers, and begin to pillage your village.\n " << casualties << " were lost.\n";
-						army.setArmySize(playerArmySize - casualties);
-					}
-					else
-					{
-						enemyKills += casualties;
-						army.setArmySize(0);
-					}
-				}
-				
+				totalEnemyKills += tempEnemyKills;
+				army.setArmySize(playerArmySize - tempEnemyKills);
+				cout << "Your walls were breached! You lost " << tempEnemyKills << " good soldiers.\n";
 			}
-		}
-		else
-		{
-			if (playerArmy.getsoldiersAtLocation(i) > 0)
+			else
 			{
-				cout << "\nYou soldiers showed up, but no one was there to fight against.\n";
+				tempEnemyKills += rand() % returnModifiedLoss(playerElement, defenseModifier, playerArmySize) + 1;
+				totalEnemyKills += tempEnemyKills;
+				army.setArmySize(playerArmySize - tempEnemyKills);
+				if (enemyElement > (playerElement * 2))
+				{
+					cout << "Even though your soldiers' numbers dwindle, they were able to repel the invading force. " << tempEnemyKills << " perished in the defense.\n";
+				}
+				else
+				{
+					cout << "Your army was routed by the enemy. You lost " << tempEnemyKills << " good soldiers.\n";
+				}
 			}
-		}
-		if (enemyKills < 0)
-		{
-			enemyKills = 0;
-		}
-		if (playerKills < 0)
-		{
-			playerKills = 0;
 		}
 	}
-	combatScoreUpdate(playerKills, enemyKills);
-	enemyArmy.resetArmy();
+	playerScore.setKills(totalKills);
+	playerScore.setAllyDeaths(totalEnemyKills);
 	isTheKingAlive();
+	cout << "\nAfter the battle you find that your soldiers have taken down " << totalKills << " enemies. This came at a cost of " << totalEnemyKills << " of your own soldiers.\n";
 	store();
 }
+///End Combat
 void combatScoreUpdate(int newKills, int newAllyDeaths)
 {
 	playerScore.setKills(newKills);
 	playerScore.setAllyDeaths(newAllyDeaths);
 	cout << "\nScore updated!\n " << playerScore.getKills() << " kills, " << playerScore.getAllyDeaths() << " ally deaths!\n\n";
 }
-int rollD12()
+int rollDie(int sides)
 {
-	return rand() % 12 + 1;
+	return rand() % sides + 1;
+}
+void whichElementLeft()
+{
+	int deserting = rand() % 3;
+	if (deserting == 0 && enemyArmy.getSoldiersAtLocation(0) > 0)
+	{
+		cout << "The Northern enemy element of " << enemyArmy.getSoldiersAtLocation(0) << " soldiers has been convinced to desert!\n";
+		enemyArmy.setSoldiersAtLocation(0, 0);
+	}
+	else if (deserting == 1 && enemyArmy.getSoldiersAtLocation(1) > 0)
+	{
+		cout << "The Eastern enemy element of " << enemyArmy.getSoldiersAtLocation(1) << " soldiers has been convinced to desert!\n";
+		enemyArmy.setSoldiersAtLocation(0, 1);
+	}
+	else if (deserting == 2 && enemyArmy.getSoldiersAtLocation(2) > 0)
+	{
+		cout << "The Southern enemy element of " << enemyArmy.getSoldiersAtLocation(2) << " soldiers has been convinced to desert!\n";
+		enemyArmy.setSoldiersAtLocation(0, 2);
+	}
+	else if (deserting == 3 && enemyArmy.getSoldiersAtLocation(3) > 0)
+	{
+		cout << "The Western enemy element of " << enemyArmy.getSoldiersAtLocation(3) << " soldiers has been convinced to desert!\n";
+		enemyArmy.setSoldiersAtLocation(0, 3);
+	}
+	else
+	{
+		whichElementLeft();
+	}
+}
+int returnModifiedCombatPower(int numberOfTroops, int meleeSkill)
+{
+	return numberOfTroops + meleeSkill;
+}
+int returnModifiedLoss(int numberOfTroopsLost, int armourSkill, int currentArmySize)
+{
+	if (currentArmySize > numberOfTroopsLost)
+	{
+		return rand() % currentArmySize + 1;
+	}
+	else
+	{
+		if (numberOfTroopsLost - armourSkill)
+		{
+			return numberOfTroopsLost - armourSkill;
+		}
+		else
+		{
+			return (numberOfTroopsLost - armourSkill) + 1;
+		}
+	}
+}
+int returnNumberOfPrisoners(int enemySoldiers)
+{
+	return (enemySoldiers / 10);
+}
+bool battleWin(int playerSoldiers, int enemySoldiers)
+{
+	if ((playerSoldiers - enemySoldiers) >= 0)
+	{
+		//player wins
+		return true;
+	}
+	else
+	{
+		//player loses
+		return false;
+	}
+}
+int generateLoot(/*add modifier later*/)
+{
+	return rand() % 90 + 1;
 }

@@ -23,7 +23,7 @@ public:
 	int getPrices(int arrayPosition) const;
 private:
 	//wares
-	int daysSinceLastPurchase;
+	int daysSinceLastPurchase = 0;
 	int scrapMetal = 200;
 	int scrapWood = 200;
 	int stone = 200;

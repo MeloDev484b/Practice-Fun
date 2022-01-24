@@ -20,7 +20,7 @@ public:
 	void setArcherAmount(int newArcherAmount);
 	void rollArmySize();
 	void rollDirection();
-	int getsoldiersAtLocation(int arrayPosition) const;
+	int getSoldiersAtLocation(int arrayPosition) const;
 	void setSoldiersAtLocation(int soldiers, int arrayPosition);
 	void setDifficultyModifier(int newDifficulty);
 	string getDirection(int arrayPosition);

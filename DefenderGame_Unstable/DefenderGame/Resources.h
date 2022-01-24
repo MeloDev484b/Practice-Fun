@@ -23,11 +23,11 @@ public:
 private:
 	int gold = 500;
 	//in development
-	int metalScraps;
-	int woodScraps;
-	int stone;
-	int mysteriousWard;
-	int capturedEnemies;
+	int metalScraps = 0;
+	int woodScraps = 0;
+	int stone = 0;
+	int mysteriousWard = 0;
+	int capturedEnemies = 0;
 
 
 };

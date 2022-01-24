@@ -3,18 +3,16 @@
 
 using namespace std;
 
-Troops::Troops(int melee, int armour, int health)
+Troops::Troops(int melee, int armour)
 {
 	this->melee = melee;
 	this->armour = armour;
-	this->health = health;
 }
-void Troops::generateStats()
+void Troops::generateStats() //currently unused
 {
 	setMelee(rand() % 10 + 1);
 	setArmour(rand() % 10 + 1);
-	setHealth(rand() % 20 + 10);
-	cout << melee << " " << armour << " " << health << endl;
+	cout << melee << " " << armour << endl;
 }
 int Troops::getMelee() const
 {
@@ -31,14 +29,6 @@ int Troops::getArmour() const
 void Troops::setArmour(int newArmourStat)
 {
 	armour = newArmourStat;
-}
-int Troops::getHealth() const
-{
-	return health;
-}
-void Troops::setHealth(int newHealth)
-{
-	health = newHealth;
 }
 int Troops::getKills() const
 {

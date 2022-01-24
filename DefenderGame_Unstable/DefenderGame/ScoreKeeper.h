@@ -24,8 +24,8 @@ private:
 	const int DIPLOMACY_MULTIPLIER = 3;
 	int currentScore;
 	int kingArms = 2;
-	int kills;
-	int allyDeaths;
+	int kills = 0;
+	int allyDeaths = 0;
 	int trades = 0;
 	int diplomacy = 0;
 };
