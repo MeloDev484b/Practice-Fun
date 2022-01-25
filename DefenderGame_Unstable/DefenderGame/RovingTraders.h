@@ -6,6 +6,8 @@
 class RovingTraders
 {
 public:
+	//possible future use
+	/*
 	int getScrapMetal() const;
 	void setScrapMetal(int metal);
 	int getScrapWood() const;
@@ -14,21 +16,24 @@ public:
 	void setStone(int newStone);
 	int getMysteriousWard() const;
 	void setMysteriousWard(ScoreKeeper playerScore);
+	void generateWares();
+	*/
 	int getGold() const;
 	void setGold(int newGold);
 	int buyCapturedEnemies(int enemiesSold);
-	void generateWares();
 	int getDaysSinceLastPurchase();
 	void setDaysSinceLastPurchase(int newDays);
 	int getPrices(int arrayPosition) const;
 private:
 	//wares
 	int daysSinceLastPurchase = 0;
+	/*
 	int scrapMetal = 200;
 	int scrapWood = 200;
 	int stone = 200;
 	int mysteriousWard = 0;
-	int gold = 1000;
+	*/
+	int gold = 5000;
 	int prices[4]{ 20, 15, 100, 200 };
 };
 

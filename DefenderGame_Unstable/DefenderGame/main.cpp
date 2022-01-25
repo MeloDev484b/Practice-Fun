@@ -30,16 +30,15 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy);
 void store();
 void randomEvent();
 int randomEventRoll();
-void buyOrSell(bool buy, int input, int gold);
 void openRovingTraderShop();
 void diplomacy();
 int rollDie(int sides);
 void whichElementLeft();
-int returnModifiedCombatPower(int numberOfTroops, int meleeSkill);
+int returnModifiedCombatPower(int numberOfTroops, int meleeSkill, int archers);
 int returnModifiedLoss(int numberOfTroopsLost, int armourSkill, int currentArmySize);
 int returnNumberOfPrisoners(int enemySoldiers);
 bool battleWin(int playerSoldiers, int enemySoldiers);
-int generateLoot(/*add modifier later*/);
+int generateLoot(/*modify loot*/);
 
 
 Army army(50, 0);
@@ -210,28 +209,27 @@ void store()
 	}
 	rovingTraders.setDaysSinceLastPurchase(1);
 }
-void randomEvent()
+void randomEvent()//adjust chance if necessary
 {
 	int chance = randomEventRoll();
-	if (chance >= 53 )//test nums
+	if (chance >= 53 )//adjust
 	{
 		//stronger enemy appears
 		int enemyType = rand() % 1;
-		if(enemyType > 0)//test nums
+		if(enemyType > 0)//adjust
 		{
 			cout << "The ground begins to shake. You notice a troll lurking behind the enemy army.\n";
 			cout << "You suspect it will take at least 5 extra men to take down.\n";
 			enemyArmy.setArmySize(enemyArmy.getArmySize() + 5);
-			cout << enemyArmy.getArmySize();//test
+			cout << "The enemy army grows to "<<enemyArmy.getArmySize()<<".\n";
 		}
 		else
 		{
 			cout << "The sky darkens. Your stomach drops as you see a dragon crush and burninate 10 soldiers.\n";
 			army.setArmySize(army.getArmySize() - 10);
-			cout << army.getArmySize()<<endl;//test
 		}
 	}
-	else if (chance == 52)//test nums
+	else if (chance == 52)//adjust
 	{
 		//troops or archers join your army from far off kingdom
 		int troopType = rand() % 1;
@@ -239,16 +237,16 @@ void randomEvent()
 		{
 			cout << "A couple Dust Bandit Bowmen have joined your cause.\n";
 			army.setArcherAmount(army.getArcherAmount() + 2);
-			cout << army.getArcherAmount() << endl;//test
+			cout << "You have " << army.getArcherAmount() << " archers enlisted.\n";
 		}
 		else
 		{
 			cout << "A few soldiers from the Burthorpe Imperial Guard have been sent to your aid!\n";
 			army.setArmySize(army.getArmySize() + 5);
-			cout << army.getArmySize() << endl;//test
+			cout << "You have " << army.getArmySize() << " soldiers enlisted.\n";
 		}
 	}
-	else if (chance == 51)//test nums
+	else if (chance == 51)//adjust
 	{
 		//troops get trained in attack or defense
 		int trainer = rand() % 1;
@@ -256,16 +254,16 @@ void randomEvent()
 		{
 			cout << "Christoph Walker stops by and shares some defensive techniques with your soldiers.\n";
 			troops.setArmour(troops.getArmour() + 1);
-			cout << troops.getArmour() << endl;//test
+			cout << "Your soldiers' armour skill is now " << troops.getArmour() << ".\n";
 		}
 		else
 		{
 			cout << "A traveler, from a far off land called Ionia, trains your soldiers in the way of the blade.\n";
 			troops.setMelee(troops.getMelee() + 1);
-			cout << troops.getMelee() << endl;//test
+			cout << "Your soldiers' melee skill is now " << troops.getMelee() << ".\n";
 		}
 	}
-	else if (chance >= 49 && chance != 50 && chance != 51 && chance != 52 && chance != 53)//test nums - lol
+	else if (chance >= 49 && chance != 50 && chance != 51 && chance != 52 && chance != 53)//adjust
 	{
 		//find gold
 		int currentGold = resources.getGold();
@@ -274,17 +272,24 @@ void randomEvent()
 		cout << "You find " << foundGold << " gold.\n";
 		resources.setGold(foundGold);
 	}
-	else if (chance >= 50 && chance != 51 && chance != 52 && chance != 53)//test nums
+	else if (chance >= 50 && chance != 51 && chance != 52 && chance != 53)//adjust
 	{
 		//king grows another arm
 		cout << "It appears the king has grown another arm. Perhaps it is the elixer of immortality he continues to drink?\n";
 		playerScore.setKingArms();
 	}
-	else if (chance >= 46 && chance < 50)//test nums
+	else if (chance >= 46 && chance < 50)//adjust
 	{
-		//roving trader passes through
-		cout << "A band of roving traders are passing through. They are willing to buy or sell wares.\n";
-		openRovingTraderShop();
+		//shady character looking to buy prisoners
+		if (resources.getCapturedEnemies() > 0)
+		{
+			cout << "A shady character appears to be eyeing your prisoners.\n";
+			openRovingTraderShop();
+		}
+		else
+		{
+			cout << "A shady character passes through. They can't seem to find what they are looking for and whisk away before you can approach.\n";
+		}
 	}
 }
 int randomEventRoll()
@@ -301,133 +306,23 @@ int randomEventRoll()
 	}
 	return result;
 }
-void buyOrSell(bool buy, int input, int gold)
-{
-	int playerGold = gold;
-	int userInput = input;
-	int maxPurchase = 0;
-	if (userInput == 1)
-	{
-		if (buy)
-		{
-			maxPurchase = min(rovingTraders.getScrapMetal(), (playerGold/rovingTraders.getPrices(0)));
-			cout << "How many metal scraps would you like to buy?\n";
-			int metalToBuy = getInput(maxPurchase);
-			rovingTraders.setScrapMetal(rovingTraders.getScrapMetal() - metalToBuy);
-			rovingTraders.setGold(metalToBuy * rovingTraders.getPrices(0));
-			resources.setGold(-(metalToBuy * rovingTraders.getPrices(0)));
-			cout << "You bought " << metalToBuy << " metal scraps. You have " << resources.getGold() << " gold.\n";
-			playerScore.setTrades(1);
-		}
-		else
-		{
-			cout << "How many metal scraps would you like to sell?\n";
-			int metalToSell = getInput(resources.getMetalScraps());
-			resources.setMetalScraps(resources.getMetalScraps() - metalToSell);
-			resources.setGold(metalToSell * rovingTraders.getPrices(0));
-			cout << "You sold " << metalToSell << " metal scraps. You have " << resources.getGold() << " gold.\n";
-			playerScore.setTrades(1);
-		}
-	}
-	else if (userInput == 2)
-	{
-		if (buy)
-		{
-			maxPurchase = min(rovingTraders.getScrapWood(), (playerGold / rovingTraders.getPrices(0)));
-			cout << "How many wood scraps would you like to buy?\n";
-			int woodToBuy = getInput(maxPurchase);
-			rovingTraders.setScrapWood(rovingTraders.getScrapWood() - woodToBuy);
-			rovingTraders.setGold((woodToBuy * rovingTraders.getPrices(1)));
-			resources.setGold(-(woodToBuy * rovingTraders.getPrices(1)));
-			cout << "You bought "<<woodToBuy << " wood scraps. You have " << resources.getGold() << " gold.\n";
-			playerScore.setTrades(1);
-		}
-		else
-		{
-			cout << "How many wood scraps would you like to sell?\n";
-			int woodToSell = getInput(resources.getWoodScraps());
-			resources.setWoodScraps(resources.getWoodScraps() - woodToSell);
-			resources.setGold(woodToSell * rovingTraders.getPrices(1));
-			cout << "You sold " << woodToSell << " wood scraps. You have " << resources.getGold() << " gold.\n";
-			playerScore.setTrades(1);
-		}
-	}
-	else if (userInput == 3)
-	{
-		if (buy)
-		{
-			maxPurchase = min(rovingTraders.getStone(), (playerGold / rovingTraders.getPrices(0)));
-			cout << "How much stone would you like to buy?\n";
-			int stoneToBuy = getInput(maxPurchase);
-			rovingTraders.setStone(rovingTraders.getStone() - stoneToBuy);
-			rovingTraders.setGold((stoneToBuy * rovingTraders.getPrices(0)));
-			resources.setGold(-(stoneToBuy * rovingTraders.getPrices(0)));
-			cout << "You bought " << stoneToBuy << " stone. You have " << resources.getGold() << " gold.\n";
-			playerScore.setTrades(1);
-		}
-		else
-		{
-			cout << "How much stone would you like to sell?\n";
-			int stoneToSell = getInput(resources.getStone());
-			resources.setStone(resources.getStone() - stoneToSell);
-			resources.setGold(stoneToSell * rovingTraders.getPrices(2));
-			cout << "You sold " << stoneToSell << " stone. You have " << resources.getGold() << " gold.\n";
-			playerScore.setTrades(1);
-		}
-	}
-	else if (userInput == 4)
-	{
-		cout << "How many prisoners would you like to sell?\n";
-		int captivesToSell = getInput(resources.getCapturedEnemies());
-		resources.setCapturedEnemies(captivesToSell);
-		resources.setGold(captivesToSell * rovingTraders.getPrices(3));
-		cout << "Transaction complete" << endl; //test
-		cout << "You sold " << captivesToSell << " prisoners. You have " << resources.getGold() << " gold.\n";
-		playerScore.setTrades(2);
-	}
-}
 void openRovingTraderShop()
 {
 	bool buy;
 	int userInput;
 	int playerGold = resources.getGold();
-	cout << "Oi I've got wares, care to take a look? Otherwise, stop wasting me time!\nYes - (1) / No - (2)\n";
+	cout << "You interested in sellin' any prisoners? Otherwise, stop wasting me time!\nYes - (1) / No - (2)\n";
 	userInput = getInput(2);
 	if (userInput == 1)
 	{
-		cout << "Right, this is what I've got in stock. 'Urry up then.\nMetal Scrap: " << rovingTraders.getScrapMetal() << " for " << rovingTraders.getPrices(0)
-			<< " each(1)\nWood Scrap: " << rovingTraders.getScrapWood() << " for " << rovingTraders.getPrices(1) << " each(2)\nStone: " << rovingTraders.getStone() << " for " << rovingTraders.getPrices(2)
-			<< " each(3)\nI'm also willing to, eh, buy some prisoners if you've got any. Say, " << rovingTraders.getPrices(3) << " each?(4)\n";
-		if (resources.getMysteriousWard() > 0 && playerGold > 5000)
-		{
-			cout << "I've also got this, uh, mysterious thing. It kinda spooks me. Not sure what it is.\n You wanna buy it for 5000 gold?\nYes - (1) / No - (2)\n";
-			userInput = getInput(2);
-			if (userInput == 1)
-			{
-				cout << "Right, here you go then.\n";
-				resources.setGold(-5000);
-			}
-			else
-			{
-				cout << "Yeah, you're probably right to steer clear of it. I'll hold onto it, in case you change your mind.\n";
-			}
-		}
-		cout << "Would you like to buy or sell?\nBuy - (1) / Sell - (2)\n";
-		userInput = getInput(2);
-		if (userInput == 1)
-		{
-			buy = true;
-		}
-		else
-		{
-			buy = false;
-		}
-		cout << "buy set to " << boolalpha << buy << endl;//test
-		cout << "What item are you interested in?\n";
-		userInput = getInput(4);
-		cout << "User input " << userInput << endl; //test
-		buyOrSell(buy, userInput, playerGold);
+		cout << "I'll take them off your hands for " << rovingTraders.getPrices(3) << " each?\n";
 
+		cout << "How many prisoners would you like to sell?\n";
+		int captivesToSell = getInput(resources.getCapturedEnemies());
+		resources.setCapturedEnemies(captivesToSell);
+		resources.setGold(captivesToSell * rovingTraders.getPrices(3));
+		cout << "You sold " << captivesToSell << " prisoners. You have " << resources.getGold() << " gold.\n";
+		playerScore.setTrades(2);
 
 		rovingTraders.setDaysSinceLastPurchase(0);
 	}
@@ -435,7 +330,6 @@ void openRovingTraderShop()
 	{
 		cout << "\nRight, I'll be going then.\n\n";
 	}
-
 }
 void diplomacy()
 {
@@ -462,7 +356,7 @@ void diplomacy()
 				highestRoll = diplomacyRollArray[i];
 			}
 		}
-		cout << "\nHighest roll: " << highestRoll << ".\n"; //test
+		cout << "\nDiplomacy roll: " << highestRoll << "/52.\n";
 		if (highestRoll < 50 && highestRoll < 52)
 		{
 			cout << "\nYour diplomats return with a nervous look in their eyes.\nAlthough their attempt was unsuccessful they have improved their diplomacy skills.\n";
@@ -500,9 +394,9 @@ void diplomacy()
 	}
 	enemyArmy.whereAreTheEnemies();
 }
-///Combat Begins
 void combatArrayCheck(Army playerArmy, Army enemyArmy)
 {
+	int archers = army.getArcherAmount();
 	int meleeModifier = troops.getMelee();
 	int defenseModifier = troops.getArmour();
 	int totalKills = 0;
@@ -521,7 +415,7 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 			if (battleWin(playerElement, enemyElement))
 			{
 				int gold = generateLoot();
-				tempPlayerKills += min(rand() % returnModifiedCombatPower(playerElement, meleeModifier), enemyElement);
+				tempPlayerKills += min(rand() % returnModifiedCombatPower(playerElement, meleeModifier, archers), enemyElement);
 				totalKills += tempPlayerKills;
 				tempPrisoners += returnNumberOfPrisoners(enemyElement);
 				resources.setCapturedEnemies(-tempPrisoners);
@@ -561,7 +455,6 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 	cout << "\nAfter the battle you find that your soldiers have taken down " << totalKills << " enemies. This came at a cost of " << totalEnemyKills << " of your own soldiers.\n";
 	store();
 }
-///End Combat
 void combatScoreUpdate(int newKills, int newAllyDeaths)
 {
 	playerScore.setKills(newKills);
@@ -600,9 +493,9 @@ void whichElementLeft()
 		whichElementLeft();
 	}
 }
-int returnModifiedCombatPower(int numberOfTroops, int meleeSkill)
+int returnModifiedCombatPower(int numberOfTroops, int meleeSkill, int archers)
 {
-	return numberOfTroops + meleeSkill;
+	return numberOfTroops + meleeSkill + archers;
 }
 int returnModifiedLoss(int numberOfTroopsLost, int armourSkill, int currentArmySize)
 {
@@ -639,7 +532,7 @@ bool battleWin(int playerSoldiers, int enemySoldiers)
 		return false;
 	}
 }
-int generateLoot(/*add modifier later*/)
+int generateLoot(/*modify loot*/)
 {
 	return rand() % 90 + 1;
 }

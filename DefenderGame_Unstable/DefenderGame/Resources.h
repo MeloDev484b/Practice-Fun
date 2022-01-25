@@ -9,7 +9,8 @@ class Resources
 public:
 	int getGold();
 	void setGold(int addGold);
-	//in development
+	//future use
+	/*
 	int getMetalScraps();
 	void setMetalScraps(int newMetalScraps);
 	int getWoodScraps();
@@ -18,18 +19,19 @@ public:
 	void setStone(int newStone);
 	int getMysteriousWard() const;
 	void setMysteriousWard(int numberWards);
+	*/
 	int getCapturedEnemies() const;
 	void setCapturedEnemies(int numberToSell);
 private:
 	int gold = 500;
-	//in development
+	int capturedEnemies = 0;
+	//future use
+	/*
 	int metalScraps = 0;
 	int woodScraps = 0;
 	int stone = 0;
 	int mysteriousWard = 0;
-	int capturedEnemies = 0;
-
-
+	*/
 };
 
 
