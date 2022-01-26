@@ -2,12 +2,14 @@
 #include "Army.h"
 
 using namespace std;
-int rollAd12();
-
 Army::Army(int armySize, int archerAmount)
 {
 	this->armySize = armySize;
 	this->archerAmount = archerAmount;
+}
+Army::Army(int armySize)
+{
+	this->armySize = armySize;
 }
 int Army::getArmySize() const
 {
@@ -24,25 +26,6 @@ int Army::getArcherAmount() const
 void Army::setArcherAmount(int newArcherAmount)
 {
 	archerAmount = newArcherAmount;
-}
-void Army::rollArmySize() //Enemy function
-{
-	//set total size of army - modify based on difficulty
-	armySize = rand() % 40 + 20;
-}
-void Army::rollDirection() //Enemy Function - pick the locations where the army is divided into [0] - [3]
-{
-	int tempArmySize = armySize;
-	for (int i = 0; i < soldiersAtLocation.size(); i++)
-	{
-		if (rollAd12() > 6 && tempArmySize > 0)
-		{
-			int amountOfSoliers = rand() % tempArmySize + 1;
-			setSoldiersAtLocation(amountOfSoliers, i);
-			tempArmySize -= amountOfSoliers;
-		}
-	}
-	
 }
 int Army::getSoldiersAtLocation(int arrayPosition) const
 {
@@ -83,26 +66,7 @@ string Army::getDirection(int arrayPosition)
 		return "Position not found.\n";
 	}
 }
-void Army::resetArmy() //EnemyFunction
-{
-	for (int i = 0; i < soldiersAtLocation.size(); i++)
-	{
-		setSoldiersAtLocation(0, i);
-	}
-}
-void Army::whereAreTheEnemies() //Enemy function
-{
-	for (int i = 0; i < soldiersAtLocation.size(); i++)
-	{
-		if (getSoldiersAtLocation(i) > 0)
-		{
-			int enemies = getSoldiersAtLocation(i);
-			string direction = getDirection(i);
-			cout <<"\n"<< enemies << " enemy soldiers approach from the " << direction << "!\n\n";
-		}
-	}
-}
-int rollAd12()
+int Army::rollAd12()
 {
 	return rand() % 12 + 1;
 }

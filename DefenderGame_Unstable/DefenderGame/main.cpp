@@ -7,6 +7,7 @@
 
 #include "Resources.h"
 #include "Army.h"
+#include "EnemyArmy.h"
 #include "Shop.h"
 #include "Troops.h"
 #include "ScoreKeeper.h"
@@ -43,7 +44,7 @@ int generateLoot(/*modify loot*/);
 
 Army army(50, 0);
 Troops troops(2, 2);
-Army enemyArmy(0, 0);
+EnemyArmy enemyArmy(0);
 Resources resources;
 ScoreKeeper playerScore;
 RovingTraders rovingTraders;
@@ -104,7 +105,8 @@ int getInput(int numOptions)
 		return userInput;
 	}
 }
-void attackDirection() //where are the enemies coming from, and how many?
+//where are the enemies coming from, and how many?
+void attackDirection()
 {
 	enemyArmy.rollArmySize();
 	enemyArmy.rollDirection();
@@ -288,7 +290,7 @@ void randomEvent()//adjust chance if necessary
 		}
 		else
 		{
-			cout << "A shady character passes through. They can't seem to find what they are looking for and whisk away before you can approach.\n";
+			cout << "A shady character passes through.\nThey can't seem to find what they are looking for and whisk away before you can approach.\n";
 		}
 	}
 }
@@ -401,6 +403,7 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 	int defenseModifier = troops.getArmour();
 	int totalKills = 0;
 	int totalEnemyKills = 0;
+	cout << "\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
 	for (int i = 0; i <= ARRAY_LOOP_CONST; i++)
 	{
 		int playerElement = army.getSoldiersAtLocation(i);
@@ -419,7 +422,7 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 				totalKills += tempPlayerKills;
 				tempPrisoners += returnNumberOfPrisoners(enemyElement);
 				resources.setCapturedEnemies(-tempPrisoners);
-				cout << "Your army routes the enemy forces! Your soldiers killed " << tempPlayerKills << " soldiers, took " << tempPrisoners << " prisoners, and looted " << gold << " gold from the battlefield.\n";
+				cout << "\nYour army routes the enemy forces attacking the "<<direction<<"! Your soldiers killed " << tempPlayerKills << " enemies, took " << tempPrisoners << " prisoners, and looted " << gold << " gold from the battlefield.\n";
 				resources.setGold(gold);
 			}
 			else if (playerElement <= 0)
@@ -431,7 +434,7 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 				}
 				totalEnemyKills += tempEnemyKills;
 				army.setArmySize(playerArmySize - tempEnemyKills);
-				cout << "Your walls were breached! You lost " << tempEnemyKills << " good soldiers.\n";
+				cout << "\nYour "<<direction<<" wall was breached! You lost " << tempEnemyKills << " good soldiers.\n";
 			}
 			else
 			{
@@ -440,19 +443,20 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 				army.setArmySize(playerArmySize - tempEnemyKills);
 				if (enemyElement > (playerElement * 2))
 				{
-					cout << "Even though your soldiers' numbers dwindle, they were able to repel the invading force. " << tempEnemyKills << " perished in the defense.\n";
+					cout << "\nYour forces were completely overwhelmed in the "<<direction<<". " << tempEnemyKills << " perished in the defense.\n";
 				}
 				else
 				{
-					cout << "Your army was routed by the enemy. You lost " << tempEnemyKills << " good soldiers.\n";
+					cout << "\nYour army was routed by the enemy. You lost " << tempEnemyKills << " good soldiers.\n";
 				}
 			}
 		}
 	}
+	cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n";
 	playerScore.setKills(totalKills);
 	playerScore.setAllyDeaths(totalEnemyKills);
+	cout << "\nAfter the battle you find that your soldiers have taken down " << totalKills << " enemies. This came at a cost of " << totalEnemyKills << " of your own soldiers.\n\n";
 	isTheKingAlive();
-	cout << "\nAfter the battle you find that your soldiers have taken down " << totalKills << " enemies. This came at a cost of " << totalEnemyKills << " of your own soldiers.\n";
 	store();
 }
 void combatScoreUpdate(int newKills, int newAllyDeaths)

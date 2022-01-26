@@ -1,22 +1,17 @@
 ﻿  Army.cpp
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\Army.cpp(36,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\Army.cpp(88,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\Army.cpp(95,20): warning C4018: '<': signed/unsigned mismatch
-  RovingTraders.cpp
-  ScoreKeeper.cpp
-  Troops.cpp
+  EnemyArmy.cpp
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(10,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(22,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(30,20): warning C4018: '<': signed/unsigned mismatch
   main.cpp
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(53,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(70,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(94,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(299,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(311,7): warning C4101: 'buy': unreferenced local variable
-  Resources.cpp
-  Shop.cpp
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(54,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(71,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(95,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(301,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(313,7): warning C4101: 'buy': unreferenced local variable
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(89): warning C4715: 'getInput': not all control paths return a value
-C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\DefenderGame\main.cpp(106): warning C4715: 'getInput': not all control paths return a value
-  All 156 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 159 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  DefenderGame.vcxproj -> C:\Users\dybme\Documents\VS Projects\MyProjects\DefenderGame\Release\DefenderGame.exe
+  DefenderGame.vcxproj -> C:\Users\dybme\Desktop\DefenderGame_Unstable\Release\DefenderGame.exe
