@@ -35,10 +35,6 @@ void Army::setSoldiersAtLocation(int soldiers, int arrayPosition)
 {
 	soldiersAtLocation[arrayPosition] = soldiers;
 }
-void Army::setDifficultyModifier(int newDifficulty)
-{
-	difficultyModifier = newDifficulty;
-}
 string Army::getDirection(int arrayPosition)
 {
 	if (arrayPosition == 0)

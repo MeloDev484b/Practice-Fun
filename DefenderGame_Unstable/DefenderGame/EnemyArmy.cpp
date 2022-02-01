@@ -2,7 +2,18 @@
 void EnemyArmy::rollArmySize() //Enemy function
 {
 	//set total size of army - modify based on difficulty
-	armySize = rand() % 40 + 20;
+	switch (difficultyModifier)
+	{
+	case 1:
+		armySize = rand() % 20 + 5;
+		break;
+	case 2:
+		armySize = rand() % 30 + 20;
+		break;
+	case 3:
+		armySize = rand() % 40 + 20;
+		break;
+	}
 }
 void EnemyArmy::rollDirection() //Enemy Function - pick the locations where the army is divided into [0] - [3]
 {
@@ -37,4 +48,8 @@ void EnemyArmy::whereAreTheEnemies() //Enemy function
 		}
 	}
 	cout << "- - - - - - - - - - - - - - - - - - - - - -";
+}
+void EnemyArmy::alignDifficultyLevel(int difficultyLevel)
+{
+	difficultyModifier = difficultyLevel;
 }

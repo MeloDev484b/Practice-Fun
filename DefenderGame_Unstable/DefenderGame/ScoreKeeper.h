@@ -5,7 +5,7 @@ class ScoreKeeper
 {
 public:
 	int getScore() const;
-	void setScore(int score);
+	void setScore();
 	int getKingArms() const;
 	void setKingArms();
 	int getKills() const;
@@ -16,13 +16,17 @@ public:
 	void setDiplomacy(int diplomacyPoints);
 	int getAllyDeaths() const;
 	void setAllyDeaths(int deaths);
+	void setDifficultyModifier(int newDifficulty);
+	int getDifficultyModifier();
 
 
 private:
 	const double KILL_MULTIPLIER = 1.5;
 	const int TRADE_MULTIPLIER = 2;
 	const int DIPLOMACY_MULTIPLIER = 3;
-	int currentScore;
+	//0 = easy, 1 = normal, 2 = hard
+	int difficultyModifier = 0;
+	int currentScore = 0;
 	int kingArms = 2;
 	int kills = 0;
 	int allyDeaths = 0;

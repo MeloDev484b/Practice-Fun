@@ -21,7 +21,6 @@ public:
 	void setArcherAmount(int newArcherAmount);
 	int getSoldiersAtLocation(int arrayPosition) const;
 	void setSoldiersAtLocation(int soldiers, int arrayPosition);
-	void setDifficultyModifier(int newDifficulty);
 	string getDirection(int arrayPosition);
 	int rollAd12();
 	//[0] amount of soldiers located in the North, [1] amount of soldiers located in the East
@@ -32,7 +31,7 @@ public:
 	//Array of directions for use in functions
 	const array <string, DIRECTION_ARRAY_SIZE> directions{ "North","East","South","West" };
 private:
-	int difficultyModifier = 1;
+	//int difficultyModifier = 1;
 	int armySize;
 	int archerAmount = 0;
 };

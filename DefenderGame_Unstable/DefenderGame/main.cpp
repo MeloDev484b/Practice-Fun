@@ -11,7 +11,7 @@
 #include "Shop.h"
 #include "Troops.h"
 #include "ScoreKeeper.h"
-#include"RovingTraders.h"
+#include "RovingTraders.h"
 using namespace std;
 
 bool kingAlive = true;
@@ -39,7 +39,9 @@ int returnModifiedCombatPower(int numberOfTroops, int meleeSkill, int archers);
 int returnModifiedLoss(int numberOfTroopsLost, int armourSkill, int currentArmySize);
 int returnNumberOfPrisoners(int enemySoldiers);
 bool battleWin(int playerSoldiers, int enemySoldiers);
-int generateLoot(/*modify loot*/);
+int generateLoot(ScoreKeeper playerScore);
+string pluralWord(string pluralCheck, int numberOfEnemies);
+void setDifficultyLevel();
 
 
 Army army(50, 0);
@@ -52,6 +54,7 @@ RovingTraders rovingTraders;
 int main()
 {
 	srand(time(0));
+	setDifficultyLevel();
 	cout << "Defend your castle!\n";
 	while (kingAlive == true)
 	{
@@ -126,6 +129,8 @@ void isTheKingAlive()
 		{
 			cout << "Your kind had " << kingArms << " at the time of his passing. Oddly enough, his apothocary has left town.\n";
 		}
+		playerScore.setScore();
+		cout << "\nYour final score was " << playerScore.getScore() << ".\n";
 		kingAlive = false;
 	}
 }
@@ -173,7 +178,7 @@ void store()
 		cout << "You have " << resources.getGold() << " gold.\n";
 		cout << "\nAs the fighting dies down, you strategize how to use your resources to improve your chances at the next wave.\n";
 		cout << "The shop contains the following: \n";
-		cout << "Weapons - 300g(1), Armour - 300g(2), Reenforcements - 200g(3), Archers - 400g(4)\n";
+		cout << "Weapons - 300g - (1), Armour - 300g - (2), Reenforcements - 200g - (3), Archers - 400g - (4)\n";
 		cout << "Type 1, 2, 3, or 4 to make your selection.\n";
 		userChoice = getInput('s');
 		if (userChoice == 1 && resources.getGold() > 300)
@@ -220,14 +225,14 @@ void randomEvent()//adjust chance if necessary
 		int enemyType = rand() % 1;
 		if(enemyType > 0)//adjust
 		{
-			cout << "The ground begins to shake. You notice a troll lurking behind the enemy army.\n";
+			cout << "\nThe ground begins to shake. You notice a troll lurking behind the enemy army.\n";
 			cout << "You suspect it will take at least 5 extra men to take down.\n";
 			enemyArmy.setArmySize(enemyArmy.getArmySize() + 5);
-			cout << "The enemy army grows to "<<enemyArmy.getArmySize()<<".\n";
+			cout << "The enemy army is now equivalent to an army of "<<enemyArmy.getArmySize()<<".\n";
 		}
 		else
 		{
-			cout << "The sky darkens. Your stomach drops as you see a dragon crush and burninate 10 soldiers.\n";
+			cout << "\nThe sky darkens. Your stomach drops as you see a dragon crush and burninate 10 soldiers.\n";
 			army.setArmySize(army.getArmySize() - 10);
 		}
 	}
@@ -237,13 +242,13 @@ void randomEvent()//adjust chance if necessary
 		int troopType = rand() % 1;
 		if (troopType > 0)
 		{
-			cout << "A couple Dust Bandit Bowmen have joined your cause.\n";
+			cout << "\nA couple Dust Bandit Bowmen have joined your cause.\n";
 			army.setArcherAmount(army.getArcherAmount() + 2);
 			cout << "You have " << army.getArcherAmount() << " archers enlisted.\n";
 		}
 		else
 		{
-			cout << "A few soldiers from the Burthorpe Imperial Guard have been sent to your aid!\n";
+			cout << "\nA few soldiers from the Burthorpe Imperial Guard have been sent to your aid!\n";
 			army.setArmySize(army.getArmySize() + 5);
 			cout << "You have " << army.getArmySize() << " soldiers enlisted.\n";
 		}
@@ -254,13 +259,13 @@ void randomEvent()//adjust chance if necessary
 		int trainer = rand() % 1;
 		if (trainer > 0)
 		{
-			cout << "Christoph Walker stops by and shares some defensive techniques with your soldiers.\n";
+			cout << "\nChristoph Walker stops by and shares some defensive techniques with your soldiers.\n";
 			troops.setArmour(troops.getArmour() + 1);
 			cout << "Your soldiers' armour skill is now " << troops.getArmour() << ".\n";
 		}
 		else
 		{
-			cout << "A traveler, from a far off land called Ionia, trains your soldiers in the way of the blade.\n";
+			cout << "\nA traveler, from a far off land called Ionia, trains your soldiers in the way of the blade.\n";
 			troops.setMelee(troops.getMelee() + 1);
 			cout << "Your soldiers' melee skill is now " << troops.getMelee() << ".\n";
 		}
@@ -270,14 +275,14 @@ void randomEvent()//adjust chance if necessary
 		//find gold
 		int currentGold = resources.getGold();
 		int foundGold = rand() % 1000 + 1;
-		cout << "A leprechaun appears at your door and delivers a pot of gold.\n";
+		cout << "\nA leprechaun appears at your door and delivers a pot of gold.\n";
 		cout << "You find " << foundGold << " gold.\n";
 		resources.setGold(foundGold);
 	}
 	else if (chance >= 50 && chance != 51 && chance != 52 && chance != 53)//adjust
 	{
 		//king grows another arm
-		cout << "It appears the king has grown another arm. Perhaps it is the elixer of immortality he continues to drink?\n";
+		cout << "\nIt appears the king has grown another arm. Perhaps it is the elixer of immortality he continues to drink?\n";
 		playerScore.setKingArms();
 	}
 	else if (chance >= 46 && chance < 50)//adjust
@@ -285,12 +290,12 @@ void randomEvent()//adjust chance if necessary
 		//shady character looking to buy prisoners
 		if (resources.getCapturedEnemies() > 0)
 		{
-			cout << "A shady character appears to be eyeing your prisoners.\n";
+			cout << "\nA shady character appears to be eyeing your prisoners.\n";
 			openRovingTraderShop();
 		}
 		else
 		{
-			cout << "A shady character passes through.\nThey can't seem to find what they are looking for and whisk away before you can approach.\n";
+			cout << "\nA shady character passes through.\nThey can't seem to find what they are looking for and whisk away before you can approach.\n";
 		}
 	}
 }
@@ -313,7 +318,7 @@ void openRovingTraderShop()
 	bool buy;
 	int userInput;
 	int playerGold = resources.getGold();
-	cout << "You interested in sellin' any prisoners? Otherwise, stop wasting me time!\nYes - (1) / No - (2)\n";
+	cout << "\nYou interested in sellin' any prisoners? Otherwise, stop wasting me time!\nYou have " <<resources.getCapturedEnemies() << " prisoners.\n" << "Yes - (1) / No - (2)\n";
 	userInput = getInput(2);
 	if (userInput == 1)
 	{
@@ -358,7 +363,7 @@ void diplomacy()
 				highestRoll = diplomacyRollArray[i];
 			}
 		}
-		cout << "\nDiplomacy roll: " << highestRoll << "/52.\n";
+		cout << "\nDiplomacy roll: " << highestRoll << "/52\n";
 		if (highestRoll < 50 && highestRoll < 52)
 		{
 			cout << "\nYour diplomats return with a nervous look in their eyes.\nAlthough their attempt was unsuccessful they have improved their diplomacy skills.\n";
@@ -368,7 +373,7 @@ void diplomacy()
 		{
 			int currentEnemyArmySize = enemyArmy.getArmySize();
 			int enemiesLeaving = int(currentDiplomacySkill);
-			cout << "\nYour diplomats walk back with their heads held high. They convinced " << enemiesLeaving << " enemies to leave the fight!\n";
+			cout << "\nYour diplomats walk back with their heads held high. They convinced " << enemiesLeaving << " " << pluralWord("enemy", enemiesLeaving) << " to leave the fight!\n";
 			troops.setDiplomacySkill(1.25);
 			//remove enemies from the enemy army
 			enemyArmy.setArmySize(currentEnemyArmySize - enemiesLeaving);
@@ -379,7 +384,7 @@ void diplomacy()
 			int currentPlayerArmySize = army.getArmySize();
 			int currentEnemyArmySize = enemyArmy.getArmySize();
 			int enemiesJoining = int(currentDiplomacySkill);
-			cout << "\nYour diplomats must be kiniving creature as they have convinced " << enemiesJoining << " enemies to fight alongside your soldiers!\n";
+			cout << "\nYour diplomats must be kiniving creature as they have convinced " << enemiesJoining << " " << pluralWord("enemy", enemiesJoining) << " to fight alongside your soldiers!\n";
 			troops.setDiplomacySkill(3);
 			//remove enemies joining from enemy army and add to player's army
 			enemyArmy.setArmySize(currentEnemyArmySize - enemiesJoining);
@@ -417,12 +422,12 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 			int playerArmySize = army.getArmySize();
 			if (battleWin(playerElement, enemyElement))
 			{
-				int gold = generateLoot();
+				int gold = generateLoot(playerScore);
 				tempPlayerKills += min(rand() % returnModifiedCombatPower(playerElement, meleeModifier, archers), enemyElement);
 				totalKills += tempPlayerKills;
 				tempPrisoners += returnNumberOfPrisoners(enemyElement);
 				resources.setCapturedEnemies(-tempPrisoners);
-				cout << "\nYour army routes the enemy forces attacking the "<<direction<<"! Your soldiers killed " << tempPlayerKills << " enemies, took " << tempPrisoners << " prisoners, and looted " << gold << " gold from the battlefield.\n";
+				cout << "\nYour army routes the enemy forces attacking the " << direction << "! Your soldiers killed " << tempPlayerKills << " " << pluralWord("enemy", tempPlayerKills) << ", took " << tempPrisoners << " prisoner, and looted " << gold << " gold from the battlefield.\n";
 				resources.setGold(gold);
 			}
 			else if (playerElement <= 0)
@@ -434,7 +439,7 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 				}
 				totalEnemyKills += tempEnemyKills;
 				army.setArmySize(playerArmySize - tempEnemyKills);
-				cout << "\nYour "<<direction<<" wall was breached! You lost " << tempEnemyKills << " good soldiers.\n";
+				cout << "\nYour "<<direction<<" wall was breached! You lost " << tempEnemyKills << " good " << pluralWord("soldier", tempEnemyKills) << ".\n";
 			}
 			else
 			{
@@ -447,7 +452,7 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 				}
 				else
 				{
-					cout << "\nYour army was routed by the enemy. You lost " << tempEnemyKills << " good soldiers.\n";
+					cout << "\nYour army was routed by the enemy. You lost " << tempEnemyKills << " good " <<pluralWord("soldier", tempEnemyKills) << ".\n";
 				}
 			}
 		}
@@ -474,22 +479,22 @@ void whichElementLeft()
 	int deserting = rand() % 3;
 	if (deserting == 0 && enemyArmy.getSoldiersAtLocation(0) > 0)
 	{
-		cout << "The Northern enemy element of " << enemyArmy.getSoldiersAtLocation(0) << " soldiers has been convinced to desert!\n";
+		cout << "The Northern enemy element of " << enemyArmy.getSoldiersAtLocation(0) << " " <<pluralWord("soldier", enemyArmy.getSoldiersAtLocation(0)) << " is deserting!\n";
 		enemyArmy.setSoldiersAtLocation(0, 0);
 	}
 	else if (deserting == 1 && enemyArmy.getSoldiersAtLocation(1) > 0)
 	{
-		cout << "The Eastern enemy element of " << enemyArmy.getSoldiersAtLocation(1) << " soldiers has been convinced to desert!\n";
+		cout << "The Eastern enemy element of " << enemyArmy.getSoldiersAtLocation(1) << " " << pluralWord("soldier", enemyArmy.getSoldiersAtLocation(1)) << " is deserting!\n";
 		enemyArmy.setSoldiersAtLocation(0, 1);
 	}
 	else if (deserting == 2 && enemyArmy.getSoldiersAtLocation(2) > 0)
 	{
-		cout << "The Southern enemy element of " << enemyArmy.getSoldiersAtLocation(2) << " soldiers has been convinced to desert!\n";
+		cout << "The Southern enemy element of " << enemyArmy.getSoldiersAtLocation(2) << " " << pluralWord("soldier", enemyArmy.getSoldiersAtLocation(2)) << " is deserting!\n";
 		enemyArmy.setSoldiersAtLocation(0, 2);
 	}
 	else if (deserting == 3 && enemyArmy.getSoldiersAtLocation(3) > 0)
 	{
-		cout << "The Western enemy element of " << enemyArmy.getSoldiersAtLocation(3) << " soldiers has been convinced to desert!\n";
+		cout << "The Western enemy element of " << enemyArmy.getSoldiersAtLocation(3) << " " << pluralWord("soldier", enemyArmy.getSoldiersAtLocation(3)) << " is deserting!\n";
 		enemyArmy.setSoldiersAtLocation(0, 3);
 	}
 	else
@@ -536,7 +541,60 @@ bool battleWin(int playerSoldiers, int enemySoldiers)
 		return false;
 	}
 }
-int generateLoot(/*modify loot*/)
+int generateLoot(ScoreKeeper playerScore)
 {
-	return rand() % 90 + 1;
+	int generated = rand() % 50 + 1;
+	return generated + (generated * playerScore.getDifficultyModifier());
+}
+string pluralWord(string pluralCheck, int numberOfEnemies)
+{
+	if (pluralCheck == "enemy")
+	{
+		if (numberOfEnemies > 1)
+		{
+			return "enemies";
+		}
+		else if (numberOfEnemies == 1)
+		{
+			return "enemy";
+		}
+		else if (numberOfEnemies == 0)
+		{
+			return "enemies";
+		}
+	}
+	else if(pluralCheck == "soldier")
+	{
+		if (numberOfEnemies > 1)
+		{
+			return "soldiers";
+		}
+		else if (numberOfEnemies == 1)
+		{
+			return "soldier";
+		}
+		else if (numberOfEnemies == 0)
+		{
+			return "soldiers";
+		}
+	}
+}
+void setDifficultyLevel()
+{
+	cout << "What difficulty level would you like to play on?\nYou may choose the following difficulty levels:\nEasy - (1) Medium - (2) Hard - (3)\n";
+	int difficultyLevel = getInput(3);
+	playerScore.setDifficultyModifier(difficultyLevel-1);
+	enemyArmy.alignDifficultyLevel(difficultyLevel);
+	switch (difficultyLevel)
+	{
+		case 1:
+			cout << "You have selected Easy. Less enemies will attack at a time.\n\n";
+			break;
+		case 2:
+			cout << "You have selected Medium. The game will play normally.\n\n";
+			break;
+		case 3:
+			cout << "You have selected Hard. Good luck.\n\n";
+			break;
+	}
 }

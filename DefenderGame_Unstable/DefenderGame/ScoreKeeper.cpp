@@ -6,9 +6,9 @@ int ScoreKeeper::getScore() const
 {
 	return currentScore;
 }
-void ScoreKeeper::setScore(int score)
+void ScoreKeeper::setScore()
 {
-	currentScore = score;
+	currentScore = (diplomacy * 2) + (trades * 3) + (kills) + (kingArms * 5) * (difficultyModifier + 1);
 }
 int ScoreKeeper::getKingArms() const
 {
@@ -49,4 +49,12 @@ int ScoreKeeper::getAllyDeaths() const
 void ScoreKeeper::setAllyDeaths(int deaths)
 {
 	allyDeaths += deaths;
+}
+void ScoreKeeper::setDifficultyModifier(int newDifficulty)
+{
+	difficultyModifier = newDifficulty;
+}
+int ScoreKeeper::getDifficultyModifier()
+{
+	return difficultyModifier;
 }

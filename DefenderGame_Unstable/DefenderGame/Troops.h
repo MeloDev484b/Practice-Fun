@@ -21,7 +21,7 @@ private:
 	int melee = 1;
 	int armour = 1;
 	int kills = 0;
-	float diplomacySkill = 1;
+	float diplomacySkill = 0;
 };
 
 

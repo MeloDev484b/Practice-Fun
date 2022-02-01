@@ -1,17 +1,16 @@
-﻿  Army.cpp
-  EnemyArmy.cpp
-C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(10,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(22,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(30,20): warning C4018: '<': signed/unsigned mismatch
+﻿  EnemyArmy.cpp
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(21,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(33,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\EnemyArmy.cpp(41,20): warning C4018: '<': signed/unsigned mismatch
   main.cpp
-C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(54,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(71,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(95,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(301,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(313,7): warning C4101: 'buy': unreferenced local variable
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(56,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(74,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(98,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(306,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(318,7): warning C4101: 'buy': unreferenced local variable
   Generating code
-  0 of 159 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  2 of 168 functions ( 1.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   DefenderGame.vcxproj -> C:\Users\dybme\Desktop\DefenderGame_Unstable\Release\DefenderGame.exe
