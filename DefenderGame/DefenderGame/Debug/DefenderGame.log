@@ -1,7 +1,10 @@
 ﻿  main.cpp
-C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(31,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(48,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(176,33): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(183,35): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-C:\Users\dybme\Desktop\Moved\DefenderGame\DefenderGame\main.cpp(67): warning C4715: 'getInput': not all control paths return a value
-  DefenderGame.vcxproj -> C:\Users\dybme\Desktop\Moved\DefenderGame\Debug\DefenderGame.exe
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(56,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(74,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(98,19): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(306,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(318,7): warning C4101: 'buy': unreferenced local variable
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(110): warning C4715: 'getInput': not all control paths return a value
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(93): warning C4715: 'getInput': not all control paths return a value
+C:\Users\dybme\Desktop\DefenderGame_Unstable\DefenderGame\main.cpp(581): warning C4715: 'pluralWord': not all control paths return a value
+  DefenderGame.vcxproj -> C:\Users\dybme\Desktop\DefenderGame_Unstable\Debug\DefenderGame.exe

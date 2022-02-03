@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\dybme\Desktop\DefenderGame_Unstable\Debug\DefenderGame.exe</FullPath>
+      <FullPath>C:\Users\dybme\Desktop\DefenderGame_Unstable\Release\DefenderGame.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

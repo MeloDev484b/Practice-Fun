@@ -140,6 +140,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Army.cpp" />
+    <ClCompile Include="EnemyArmy.cpp" />
+    <ClCompile Include="RovingTraders.cpp" />
+    <ClCompile Include="ScoreKeeper.cpp" />
     <ClCompile Include="Troops.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Resources.cpp" />
@@ -147,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Army.h" />
+    <ClInclude Include="EnemyArmy.h" />
+    <ClInclude Include="RovingTraders.h" />
+    <ClInclude Include="ScoreKeeper.h" />
     <ClInclude Include="Troops.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Shop.h" />

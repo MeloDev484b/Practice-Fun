@@ -2,12 +2,14 @@
 #include "Army.h"
 
 using namespace std;
-
-Army::Army(int armySize, int archerAmount, string direction)
+Army::Army(int armySize, int archerAmount)
 {
 	this->armySize = armySize;
 	this->archerAmount = archerAmount;
-	this->direction = direction;
+}
+Army::Army(int armySize)
+{
+	this->armySize = armySize;
 }
 int Army::getArmySize() const
 {
@@ -25,35 +27,42 @@ void Army::setArcherAmount(int newArcherAmount)
 {
 	archerAmount = newArcherAmount;
 }
-string Army::getDirection() const
+int Army::getSoldiersAtLocation(int arrayPosition) const
 {
-	return direction;
+	return soldiersAtLocation[arrayPosition];
 }
-void Army::setDirection(string newDirection)
+void Army::setSoldiersAtLocation(int soldiers, int arrayPosition)
 {
-	direction = newDirection;
+	soldiersAtLocation[arrayPosition] = soldiers;
 }
-void Army::rollArmySize()
+string Army::getDirection(int arrayPosition)
 {
-	setArmySize(rand() % ENEMY_MULTIPLIER); //select number of enemies between 20 & 40
-	if (armySize < 20)
+	if (arrayPosition == 0)
 	{
-		armySize = 20;
+		//North
+		return directions[0];
+	}
+	else if(arrayPosition == 1)
+	{
+		//East
+		return directions[1];
+	}
+	else if (arrayPosition == 2)
+	{
+		//South
+		return directions[2];
+	}
+	else if (arrayPosition == 3)
+	{
+		//West
+		return directions[3];
+	}
+	else
+	{
+		return "Position not found.\n";
 	}
 }
-void Army::rollDirection()
+int Army::rollAd12()
 {
-	setDirection(directions[rand() % 4]);
-}
-int Army::getArmySizeLocation(int location) const
-{
-	return armySizeLocation[location];
-}
-void Army::setArmySizeLocation(int troopsSent, int location)
-{
-	armySizeLocation[location] = troopsSent;
-}
-string Army::returnArrayDirection(int direction) const
-{
-	return directions[direction];
+	return rand() % 12 + 1;
 }
