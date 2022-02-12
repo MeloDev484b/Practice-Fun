@@ -156,8 +156,8 @@ void preparation()
 			}
 			else if(stationInput > tempArmySize)
 			{
-				cout << "You can't allocate more soldiers than you have!\n";
-				cout << "You send all available soldiers to the " << direction << ".\n";
+				cout << "\n>>>You can't allocate more soldiers than you have!\n";
+				cout << ">>>You send all available soldiers to the " << direction << ".\n";
 				army.setSoldiersAtLocation(tempArmySize, i);
 				tempArmySize = 0;
 			}
@@ -176,6 +176,7 @@ void store()
 	{
 		int userChoice = 0;
 		cout << "You have " << resources.getGold() << " gold.\n";
+		cout << "You have " << army.getArmySize() << " soldiers available.\n";
 		cout << "\nAs the fighting dies down, you strategize how to use your resources to improve your chances at the next wave.\n";
 		cout << "The shop contains the following: \n";
 		cout << "Weapons - 300g - (1), Armour - 300g - (2), Reenforcements - 200g - (3), Archers - 400g - (4)\n";
@@ -186,14 +187,14 @@ void store()
 			cout << "You improve your army's weapons.\n";
 			troops.setMelee(currentMelee + 1);
 			resources.setGold(-300);
-			cout << "Current weapons skill level: " << troops.getMelee() << ".\n";
+			cout << "Current weapons level: " << troops.getMelee() << ".\n";
 		}
 		else if (userChoice == 2 && resources.getGold() > 300)
 		{
 			cout << "You improve your army's armour.\n";
 			troops.setArmour(currentArmour + 1);
 			resources.setGold(-300);
-			cout << "Current armour skill level: " << troops.getArmour() << ".\n";
+			cout << "Current armour level: " << troops.getArmour() << ".\n";
 		}
 		else if (userChoice == 3 && resources.getGold() > 200)
 		{
@@ -219,11 +220,11 @@ void store()
 void randomEvent()//adjust chance if necessary
 {
 	int chance = randomEventRoll();
-	if (chance >= 53 )//adjust
+	if (chance >= 53 )//adjustable
 	{
 		//stronger enemy appears
 		int enemyType = rand() % 1;
-		if(enemyType > 0)//adjust
+		if(enemyType > 0)//adjustable
 		{
 			cout << "\nThe ground begins to shake. You notice a troll lurking behind the enemy army.\n";
 			cout << "You suspect it will take at least 5 extra men to take down.\n";
@@ -236,7 +237,7 @@ void randomEvent()//adjust chance if necessary
 			army.setArmySize(army.getArmySize() - 10);
 		}
 	}
-	else if (chance == 52)//adjust
+	else if (chance == 52)//adjustable
 	{
 		//troops or archers join your army from far off kingdom
 		int troopType = rand() % 1;
@@ -253,7 +254,7 @@ void randomEvent()//adjust chance if necessary
 			cout << "You have " << army.getArmySize() << " soldiers enlisted.\n";
 		}
 	}
-	else if (chance == 51)//adjust
+	else if (chance == 51)//adjustable
 	{
 		//troops get trained in attack or defense
 		int trainer = rand() % 1;
@@ -270,7 +271,7 @@ void randomEvent()//adjust chance if necessary
 			cout << "Your soldiers' melee skill is now " << troops.getMelee() << ".\n";
 		}
 	}
-	else if (chance >= 49 && chance != 50 && chance != 51 && chance != 52 && chance != 53)//adjust
+	else if (chance >= 49 && chance != 50 && chance != 51 && chance != 52 && chance != 53)//adjustable
 	{
 		//find gold
 		int currentGold = resources.getGold();
@@ -279,13 +280,13 @@ void randomEvent()//adjust chance if necessary
 		cout << "You find " << foundGold << " gold.\n";
 		resources.setGold(foundGold);
 	}
-	else if (chance >= 50 && chance != 51 && chance != 52 && chance != 53)//adjust
+	else if (chance >= 50 && chance != 51 && chance != 52 && chance != 53)//adjustable
 	{
 		//king grows another arm
 		cout << "\nIt appears the king has grown another arm. Perhaps it is the elixer of immortality he continues to drink?\n";
 		playerScore.setKingArms();
 	}
-	else if (chance >= 46 && chance < 50)//adjust
+	else if (chance >= 46 && chance < 50)//adjustable
 	{
 		//shady character looking to buy prisoners
 		if (resources.getCapturedEnemies() > 0)
@@ -295,7 +296,7 @@ void randomEvent()//adjust chance if necessary
 		}
 		else
 		{
-			cout << "\nA shady character passes through.\nThey can't seem to find what they are looking for and whisk away before you can approach.\n";
+			cout << "\nA shady character passes through.\nThey can't seem to find what they are looking for and whisk away before you can approach them.\n";
 		}
 	}
 }
@@ -427,7 +428,7 @@ void combatArrayCheck(Army playerArmy, Army enemyArmy)
 				totalKills += tempPlayerKills;
 				tempPrisoners += returnNumberOfPrisoners(enemyElement);
 				resources.setCapturedEnemies(-tempPrisoners);
-				cout << "\nYour army routes the enemy forces attacking the " << direction << "! Your soldiers killed " << tempPlayerKills << " " << pluralWord("enemy", tempPlayerKills) << ", took " << tempPrisoners << " prisoner, and looted " << gold << " gold from the battlefield.\n";
+				cout << "\nYour army routes the enemy forces attacking the " << direction << "! Your soldiers killed " << tempPlayerKills << " " << pluralWord("enemy", tempPlayerKills) << ",\ntook " << tempPrisoners << " prisoner, and looted " << gold << " gold from the battlefield.\n";
 				resources.setGold(gold);
 			}
 			else if (playerElement <= 0)
