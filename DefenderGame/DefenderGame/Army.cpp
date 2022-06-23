@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Army.h"
 
-using namespace std;
 Army::Army(int armySize, int archerAmount)
 {
 	this->armySize = armySize;
@@ -35,7 +34,7 @@ void Army::setSoldiersAtLocation(int soldiers, int arrayPosition)
 {
 	soldiersAtLocation[arrayPosition] = soldiers;
 }
-string Army::getDirection(int arrayPosition)
+std::string Army::getDirection(int arrayPosition)
 {
 	if (arrayPosition == 0)
 	{

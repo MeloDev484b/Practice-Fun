@@ -2,7 +2,6 @@
 #define RESOURCES_H
 
 #include <iostream>
-using namespace std;
 
 class Resources
 {

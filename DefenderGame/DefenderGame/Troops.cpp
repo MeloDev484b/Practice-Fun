@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Troops.h"
 
-using namespace std;
 
 Troops::Troops(int melee, int armour)
 {
@@ -12,7 +11,7 @@ void Troops::generateStats() //currently unused
 {
 	setMelee(rand() % 10 + 1);
 	setArmour(rand() % 10 + 1);
-	cout << melee << " " << armour << endl;
+	std::cout << melee << " " << armour << "\n";
 }
 int Troops::getMelee() const
 {

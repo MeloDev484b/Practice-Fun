@@ -37,17 +37,17 @@ void EnemyArmy::resetArmy() //EnemyFunction
 }
 void EnemyArmy::whereAreTheEnemies() //Enemy function
 {
-	cout << "- - - - - - - - - - - - - - - - - - - - - -\n";
+	std::cout << "- - - - - - - - - - - - - - - - - - - - - -\n";
 	for (int i = 0; i < soldiersAtLocation.size(); i++)
 	{
 		if (getSoldiersAtLocation(i) > 0)
 		{
 			int enemies = getSoldiersAtLocation(i);
-			string direction = getDirection(i);
-			cout << "\n" << enemies << " enemy soldiers approach from the " << direction << "!\n\n";
+			std::string direction = getDirection(i);
+			std::cout << "\n" << enemies << " enemy soldiers approach from the " << direction << "!\n\n";
 		}
 	}
-	cout << "- - - - - - - - - - - - - - - - - - - - - -";
+	std::cout << "- - - - - - - - - - - - - - - - - - - - - -";
 }
 void EnemyArmy::alignDifficultyLevel(int difficultyLevel)
 {

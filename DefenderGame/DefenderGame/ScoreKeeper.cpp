@@ -1,6 +1,5 @@
 #include "ScoreKeeper.h"
 #include <iostream>
-using namespace std;
 
 int ScoreKeeper::getScore() const
 {

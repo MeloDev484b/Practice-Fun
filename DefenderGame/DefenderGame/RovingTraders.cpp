@@ -1,7 +1,6 @@
 #include "RovingTraders.h"
 #include <iostream>
 #include <string>
-using namespace std;
 
 //int RovingTraders::getScrapMetal() const
 //{
@@ -55,7 +54,7 @@ int RovingTraders::buyCapturedEnemies(int enemiesSold)
 	}
 	else
 	{
-		cout << "Why are you wasting my time?" << endl;
+		std::cout << "Why are you wasting my time?\n";
 		return 0;
 	}
 }
