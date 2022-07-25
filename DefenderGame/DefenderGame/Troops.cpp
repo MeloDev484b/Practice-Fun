@@ -7,7 +7,7 @@ Troops::Troops(int melee, int armour)
 	this->melee = melee;
 	this->armour = armour;
 }
-void Troops::generateStats() //currently unused
+void Troops::generateStats() // Currently unused
 {
 	setMelee(rand() % 10 + 1);
 	setArmour(rand() % 10 + 1);

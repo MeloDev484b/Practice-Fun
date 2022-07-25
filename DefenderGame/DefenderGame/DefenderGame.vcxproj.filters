@@ -62,8 +62,5 @@
     <ClInclude Include="EnemyArmy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\Tools\bearlibterminal\BearLibTerminal_0.15.7\Include\C\BearLibTerminal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

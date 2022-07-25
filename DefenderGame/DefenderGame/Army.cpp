@@ -38,22 +38,22 @@ std::string Army::getDirection(int arrayPosition)
 {
 	if (arrayPosition == 0)
 	{
-		//North
+		// North
 		return directions[0];
 	}
 	else if(arrayPosition == 1)
 	{
-		//East
+		// East
 		return directions[1];
 	}
 	else if (arrayPosition == 2)
 	{
-		//South
+		// South
 		return directions[2];
 	}
 	else if (arrayPosition == 3)
 	{
-		//West
+		// West
 		return directions[3];
 	}
 	else

@@ -1,7 +1,7 @@
 #include "EnemyArmy.h"
 void EnemyArmy::rollArmySize() //Enemy function
 {
-	//set total size of army - modify based on difficulty
+	// Set total size of army - modify based on difficulty
 	switch (difficultyModifier)
 	{
 	case 1:
@@ -15,7 +15,7 @@ void EnemyArmy::rollArmySize() //Enemy function
 		break;
 	}
 }
-void EnemyArmy::rollDirection() //Enemy Function - pick the locations where the army is divided into [0] - [3]
+void EnemyArmy::rollDirection() // Enemy Function - pick the locations where the army is divided into [0] - [3]
 {
 	int tempArmySize = armySize;
 	for (int i = 0; i < soldiersAtLocation.size(); i++)
@@ -28,14 +28,14 @@ void EnemyArmy::rollDirection() //Enemy Function - pick the locations where the 
 		}
 	}
 }
-void EnemyArmy::resetArmy() //EnemyFunction
+void EnemyArmy::resetArmy() // Creates the enemy's army
 {
 	for (int i = 0; i < soldiersAtLocation.size(); i++)
 	{
 		setSoldiersAtLocation(0, i);
 	}
 }
-void EnemyArmy::whereAreTheEnemies() //Enemy function
+void EnemyArmy::whereAreTheEnemies() // Display where enemies approach from
 {
 	std::cout << "- - - - - - - - - - - - - - - - - - - - - -\n";
 	for (int i = 0; i < soldiersAtLocation.size(); i++)

@@ -11,7 +11,7 @@ class EnemyArmy : public Army
 		void rollDirection();
 		void resetArmy();
 		void whereAreTheEnemies();
-		//set difficulty level to match the chosen difficulty level
+		// Set difficulty level to match the chosen difficulty level
 		void alignDifficultyLevel(int difficultyLevel);
 	private:
 		int armySize = 0;

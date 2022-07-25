@@ -157,7 +157,6 @@
     <ClCompile Include="Shop.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\Tools\bearlibterminal\BearLibTerminal_0.15.7\Include\C\BearLibTerminal.h" />
     <ClInclude Include="Army.h" />
     <ClInclude Include="EnemyArmy.h" />
     <ClInclude Include="RovingTraders.h" />

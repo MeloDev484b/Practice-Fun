@@ -12,7 +12,7 @@ class Shop
 		int getReinforcementsUpgradePrice() const;
 		int getArchersUpgradePrice() const;
 	private:
-		//items for sale
+		// Items for sale
 		int weaponsUpgrade = 300;
 		int armourUpgrade = 300;
 		int reinforcements = 200; //recruit 20 foot soldiers

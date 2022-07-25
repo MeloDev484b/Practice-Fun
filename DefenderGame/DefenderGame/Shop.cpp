@@ -1,3 +1,3 @@
 #include "Shop.h"
 
-//future implementation
+// Future implementation

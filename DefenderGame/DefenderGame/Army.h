@@ -22,15 +22,15 @@ public:
 	void setSoldiersAtLocation(int soldiers, int arrayPosition);
 	std::string getDirection(int arrayPosition);
 	int rollAd12();
-	//[0] amount of soldiers located in the North, [1] amount of soldiers located in the East
-	//[2] amount of soldiers located in the South, [3] amount of soldiers located in the West
+	// [0] amount of soldiers located in the North, [1] amount of soldiers located in the East,
+	// [2] amount of soldiers located in the South, [3] amount of soldiers located in the West
 	std::array <int, 4> soldiersAtLocation{ 0, 0, 0, 0 };
 	
 
-	//Array of directions for use in functions
+	// Array of directions for use in functions
 	const std::array <std::string, DIRECTION_ARRAY_SIZE> directions{ "North","East","South","West" };
 private:
-	//int difficultyModifier = 1;
+	// Int difficultyModifier = 1;
 	int armySize;
 	int archerAmount = 0;
 };

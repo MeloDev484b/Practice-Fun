@@ -15,11 +15,12 @@
 
 bool kingAlive = true;
 
-//might change from constant so it can be adjusted based on how many enemies you have killed
+// Might change from constant so it can be adjusted based on how many enemies you have killed
 const int DIPLOMACY_DENOMINATOR = 49;
-//number of rolls for diplomacy
+// Number of rolls for diplomacy
 const int DIPLOMACY_ARRAY_SIZE = 5;
 
+// Phase "p" is planning phase, "s" is the shop phase
 int getInput(char phase);
 int getInput(int numOptions);
 void isTheKingAlive();
@@ -50,6 +51,7 @@ Resources resources;
 ScoreKeeper playerScore;
 RovingTraders rovingTraders;
 
+// Game loop
 int main()
 {
 	srand(time(0));
@@ -107,12 +109,16 @@ int getInput(int numOptions)
 		return userInput;
 	}
 }
-//where are the enemies coming from, and how many?
+// Generate enemies and their locations
 void attackDirection()
 {
+	// Create the enemy army
 	enemyArmy.rollArmySize();
+	// Place enemy troops at various locations
 	enemyArmy.rollDirection();
+	// Tell the player where the enemies are coming from
 	enemyArmy.whereAreTheEnemies();
+	// Roll for a random event to occur
 	randomEvent();
 }
 void isTheKingAlive()
@@ -136,9 +142,11 @@ void isTheKingAlive()
 void preparation()
 {
 	int tempArmySize = army.getArmySize();
-	//make an attempt at diplomacy first
+
+	// Roll for diplomacy before the battle
 	diplomacy();
-	//determine where troops go before the attack
+
+	// Player chooses where their soldiers will go
 	for (int i = 0; i < DIRECTION_ARRAY_SIZE; i++)
 	{
 		if (army.getArmySize() > 0 && tempArmySize > 0 && enemyArmy.getSoldiersAtLocation(i) > 0)
@@ -198,14 +206,14 @@ void store()
 		else if (userChoice == 3 && resources.getGold() > 200)
 		{
 			std::cout << "You hire more soldiers.\n";
-			army.setArmySize(currentArmySize + 10); //NOTE:make this scale
+			army.setArmySize(currentArmySize + 10); // NOTE:make this scale
 			resources.setGold(-200);
 			std::cout << "Total soldiers enlisted: " << army.getArmySize() << ".\n";
 		}
 		else if (userChoice == 4 && resources.getGold() > 400)
 		{
 			std::cout << "You hire a party of archers to support your footsoldiers.\n";
-			army.setArcherAmount(currentArchers + 4); ///NOTE:make this scale
+			army.setArcherAmount(currentArchers + 4); // NOTE:make this scale
 			resources.setGold(-400);
 			std::cout << "Total archers enlisted: " << army.getArcherAmount() << ".\n";
 		}
@@ -216,14 +224,14 @@ void store()
 	}
 	rovingTraders.setDaysSinceLastPurchase(1);
 }
-void randomEvent()//adjust chance if necessary
+void randomEvent()
 {
 	int chance = randomEventRoll();
-	if (chance >= 53 )//adjustable
+	if (chance >= 53 )
 	{
-		//stronger enemy appears
+		// Stronger enemy appears
 		int enemyType = rand() % 1;
-		if(enemyType > 0)//adjustable
+		if(enemyType > 0)
 		{
 			std::cout << "\nThe ground begins to shake. You notice a troll lurking behind the enemy army.\n";
 			std::cout << "You suspect it will take at least 5 extra men to take down.\n";
@@ -236,9 +244,9 @@ void randomEvent()//adjust chance if necessary
 			army.setArmySize(army.getArmySize() - 10);
 		}
 	}
-	else if (chance == 52)//adjustable
+	else if (chance == 52)
 	{
-		//troops or archers join your army from far off kingdom
+		// Troops or archers join your army from far off kingdom
 		int troopType = rand() % 1;
 		if (troopType > 0)
 		{
@@ -253,9 +261,9 @@ void randomEvent()//adjust chance if necessary
 			std::cout << "You have " << army.getArmySize() << " soldiers enlisted.\n";
 		}
 	}
-	else if (chance == 51)//adjustable
+	else if (chance == 51)
 	{
-		//troops get trained in attack or defense
+		// Troops get trained in attack or defense
 		int trainer = rand() % 1;
 		if (trainer > 0)
 		{
@@ -270,24 +278,24 @@ void randomEvent()//adjust chance if necessary
 			std::cout << "Your soldiers' melee skill is now " << troops.getMelee() << ".\n";
 		}
 	}
-	else if (chance >= 49 && chance != 50 && chance != 51 && chance != 52 && chance != 53)//adjustable
+	else if (chance >= 49 && chance != 50 && chance != 51 && chance != 52 && chance != 53)
 	{
-		//find gold
+		// Find gold
 		int currentGold = resources.getGold();
 		int foundGold = rand() % 1000 + 1;
 		std::cout << "\nA leprechaun appears at your door and delivers a pot of gold.\n";
 		std::cout << "You find " << foundGold << " gold.\n";
 		resources.setGold(foundGold);
 	}
-	else if (chance >= 50 && chance != 51 && chance != 52 && chance != 53)//adjustable
+	else if (chance >= 50 && chance != 51 && chance != 52 && chance != 53)
 	{
-		//king grows another arm
+		// King grows another arm
 		std::cout << "\nIt appears the king has grown another arm. Perhaps it is the elixer of immortality he continues to drink?\n";
 		playerScore.setKingArms();
 	}
-	else if (chance >= 46 && chance < 50)//adjustable
+	else if (chance >= 46 && chance < 50)
 	{
-		//shady character looking to buy prisoners
+		// Shady character looking to buy prisoners
 		if (resources.getCapturedEnemies() > 0)
 		{
 			std::cout << "\nA shady character appears to be eyeing your prisoners.\n";
@@ -375,7 +383,7 @@ void diplomacy()
 			int enemiesLeaving = int(currentDiplomacySkill);
 			std::cout << "\nYour diplomats walk back with their heads held high. They convinced " << enemiesLeaving << " " << pluralWord("enemy", enemiesLeaving) << " to leave the fight!\n";
 			troops.setDiplomacySkill(1.25);
-			//remove enemies from the enemy army
+			// Remove enemies from the enemy army
 			enemyArmy.setArmySize(currentEnemyArmySize - enemiesLeaving);
 			enemyArmy.rollDirection();
 		}
@@ -386,7 +394,7 @@ void diplomacy()
 			int enemiesJoining = int(currentDiplomacySkill);
 			std::cout << "\nYour diplomats must be kiniving creature as they have convinced " << enemiesJoining << " " << pluralWord("enemy", enemiesJoining) << " to fight alongside your soldiers!\n";
 			troops.setDiplomacySkill(3);
-			//remove enemies joining from enemy army and add to player's army
+			// Remove enemies joining from enemy army and add to player's army
 			enemyArmy.setArmySize(currentEnemyArmySize - enemiesJoining);
 			army.setArmySize(currentPlayerArmySize + enemiesJoining);
 			enemyArmy.rollDirection();
@@ -395,7 +403,7 @@ void diplomacy()
 		{
 			std::cout << "\nYour diplomats return, bustling with excitement.\n";
 			troops.setDiplomacySkill(5);
-			//one element of the enemy army retreats
+			// One element of the enemy army retreats
 			whichElementLeft();
 		}
 	}
@@ -532,12 +540,12 @@ bool battleWin(int playerSoldiers, int enemySoldiers)
 {
 	if ((playerSoldiers - enemySoldiers) >= 0)
 	{
-		//player wins
+		// Player wins
 		return true;
 	}
 	else
 	{
-		//player loses
+		// Player loses
 		return false;
 	}
 }
